@@ -9,9 +9,6 @@
 % and version 1.3 or later is part of all distributions of LaTeX
 % version 2005/12/01 or later.
 
-% Problemos:  pakartotinis vumifsectionnonumnocontent panaudojimas sukelia
-% problemų su puslapio numeravimu.
-
 % Darbo apiforminimas pagal Vilniaus universiteto
 % Matematikos ir informatikos fakulteto Programų sistemų katedros reikalavimus
 \ProvidesPackage{VUMIFPSkursinis}[2015/01/01 1.0 VU MIF PS course Style]
@@ -19,11 +16,11 @@
 \RequirePackage[T1]{fontenc}
 \RequirePackage{setspace}
 \setstretch{1.4}
-\renewcommand*\rmdefault{ppl} % 'Serif' šriftas visame dokumente (Palatino)  
+% \renewcommand*\rmdefault{ppl} % 'Serif' šriftas visame dokumente (Palatino)  
 \sloppy  % Tolygiai paskirsto tekstą nuo kairės iki dešinės paraštės'
 
 % Titulinio puslapio variantas
-\DeclareOption{csdepttitle}{%
+\DeclareOption{sedepttitle}{%
   \def\@outputtitle{%
   \begin{center}
   \null\vfil
@@ -55,40 +52,8 @@
       \end{tabular} \par}%
   \end{flushright}}
 }
-    
-\DeclareOption{mathcsdepttitle}{%
-  \def\@outputtitle{%
-  \begin{center}
-  \null\vfil
-  \vspace{44pt}
-    {\@author \par}
-  \vspace{12pt}
-    {\@signatureplace \par}
-  \vspace{44pt}
-    {\textbf{\MakeUppercase{\@title}} \par}
-  \vspace{24pt}
-    \@ifundefined{@vumifpaper}{\vskip 1ex}{\@vumifpaper \par}
-  \vspace{48pt}
-    {Vadovas \\ \@supervisor \par}
-  \vspace{12pt}
-    {\@signatureplace \par}
-  \@ifundefined{@reviewer}{}{%
-    \PackageError{VUMIF}{Matematines informatikos tituliniame %
-      puslapyje recenzento negali buti}{Parasykite %
-      laurynas.biveinis@gmail.com ir atsiuskite norima puslapio %
-      su recenzentu pavyzdi}
-%    \vspace{48pt}
-%       {Recenzentas \\ \@reviewer \par}
-%    \vspace{12pt}
-%       {\@signatureplace \par}
-  }%
 
-  \end{center}}
-}
-
-% Pagal nutylėjimą bakalaurinis su informatikos katedros stiliaus
-% puslapis
-\ExecuteOptions{csdepttitle}
+\ExecuteOptions{sedepttitle}
 
 \ProcessOptions
 
@@ -99,13 +64,13 @@
 \newcommand{\reviewer}[1]{\def\@reviewer{#1}}
 
 % Skyriaus pavadinimas, turinyje neturintis numerio
-\newcommand{\vumifsectionnonum}[1]{%
+\newcommand{\sectionnonum}[1]{%
     \section*{#1}%
-    \addcontentsline{toc}{section}{#1}%
+    \addcontentsline{toc}{section}{\MakeUppercase{#1}}%
 }
 
 % Skyriaus pavadinimas, neturintis numerio bei neįeinantis į turinį
-% \newcommand{\vumifsectionnonumnocontent}[1]{%
+% \newcommand{\sectionnonumnocontent}[1]{%
 %     \section*{#1}%
 % }
 
@@ -196,7 +161,7 @@
     \pagestyle{plain}%
     % Turinys su viengubu intervalu tarp eilučių
     \begin{singlespacing}%
-    \section*{\normalfont\normalsize\centering\contentsname
+        \section*{\bf\normalsize\centering\MakeUppercase\contentsname
         \@mkboth{%
            \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
     \@starttoc{toc}%
@@ -214,6 +179,7 @@
 \renewcommand\l@section[2]{%
   \ifnum \c@tocdepth >\z@
     \addpenalty\@secpenalty
+    \addvspace{0.6em \@plus\p@}
     \setlength\@tempdima{1.5em}%
     \begingroup
       \parindent \z@ \rightskip \@pnumwidth
@@ -221,7 +187,8 @@
       \leavevmode {
       \advance\leftskip\@tempdima
       \hskip -\leftskip
-      #1}\nobreak\
+      % Uppercasing first level titles
+      \MakeUppercase{#1}}\nobreak\
       \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
      \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
     \endgroup
@@ -236,7 +203,7 @@
         {\normalfont\Large\bfseries}%
 }
 
-% Puslapiai numeruojami viršuje
+% Puslapiai numeruojami apačioje
 \def\ps@plain{%
     \renewcommand{\@oddhead}{}%
     \renewcommand{\@evenhead}{}%
@@ -248,16 +215,18 @@
 \renewcommand{\appendix}{%
     \renewcommand{\section}{%
         \cleardoublepage%
-        \secdef\@Appendix\@sAppendix%
+         \secdef\@Appendix\@sAppendix%
     }%
     \setcounter{section}{0}%
-    \renewcommand{\thesection}{Nr. \arabic{section}.}%
+    \renewcommand{\thesection}{nr. \arabic{section}}%
+    % Insert record to TOC 
+    \addcontentsline{toc}{section}{\MakeUppercase{Priedai}}%}
 }
 
 \def\@Appendix[#1]#2{%
     \refstepcounter{section}%
-    \addcontentsline{toc}{section}%
-        {\appendixname~\thesection}%
+    \addcontentsline{toc}{subsection}%
+        {\arabic{section} priedas.~#2}%
     {\large\bfseries\appendixname\ \thesection\par
      #2\par}% \nohyphens\centering#2\par}%
     \sectionmark{#1}\vspace{\baselineskip}%
@@ -273,14 +242,14 @@
 
 % Literatūros sąrašą reikia pervadinti
 \addto\captionslithuanian{%
-    \renewcommand{\refname}{Literat\={u}ros s\k{a}ra\v{s}as}%
+    \renewcommand{\refname}{\v{S}altiniai}%
 }
 
 % Literatūros sąrašą įtraukiame į turinį, nustatome jo stilių
 \let\oldbibliography\bibliography
 \renewcommand{\bibliography}[1]{%
     \cleardoublepage%
-    \addcontentsline{toc}{section}{\refname}%}
+    \addcontentsline{toc}{section}{\MakeUppercase{\refname}}%}
     \bibliographystyle{alpha}%
     \oldbibliography{#1}%
 }
@@ -289,10 +258,10 @@
 \newcommand{\subsubsubsection}{\subsubparagraph}
 
 \makeatletter
-
 \renewcommand\subsubsubsection{\@startsection{paragraph}{4}{0ex}{-3.25ex plus -1ex minus
 -0.2ex}{1.5ex plus 0.2ex}{\normalfont\normalsize\bfseries}}
 \makeatother
+
 \stepcounter{secnumdepth}
 \stepcounter{tocdepth}
 
