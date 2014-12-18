@@ -66,7 +66,7 @@
 % Skyriaus pavadinimas, turinyje neturintis numerio
 \newcommand{\sectionnonum}[1]{%
     \section*{#1}%
-    \addcontentsline{toc}{section}{\MakeUppercase{#1}}%
+    \addcontentsline{toc}{section}{\MakeUppercase{#1}}% 
 }
 
 % Skyriaus pavadinimas, neturintis numerio bei neįeinantis į turinį
@@ -152,6 +152,8 @@
   \onehalfspacing
 }
 
+
+
 % 'Turinys' centruotas ir pagrindinio teksto šrifto bei dydžio
 \renewcommand\tableofcontents{%
     % Visame dokumente už titulinio lapo:
@@ -194,6 +196,7 @@
     \endgroup
   \fi}
 
+
 % Sekcija pradeda naują puslapį
 \renewcommand{\section}{%
     \cleardoublepage%
@@ -210,6 +213,7 @@
     \renewcommand{\@evenfoot}{\hfill\textrm{\thepage}\hspace{1cm}}%
     \renewcommand{\@oddfoot}{\@evenfoot}%
 }
+
 
 % Priedo sekcijų formatavimas turiniui
 \renewcommand{\appendix}{%
@@ -264,5 +268,13 @@
 
 \stepcounter{secnumdepth}
 \stepcounter{tocdepth}
-
 \renewcommand{\paragraph}{\subparagraph}
+
+% Turinio skyrių indentavimo nustatymas. Kiekvienam skyriui nustatoma:
+% 1. Atitraukimo iš kairės plotis
+% 2. Vietos, skiriama skaičiams, plotis
+\makeatletter
+  \renewcommand*\l@subsection{\@dottedtocline{2}{0.1cm}{0.87cm}}
+  \renewcommand*\l@subsubsection{\@dottedtocline{3}{0.8cm}{1.22cm}}
+  \renewcommand*\l@paragraph{\@dottedtocline{4}{1.5cm}{1.52cm}}
+\makeatother
