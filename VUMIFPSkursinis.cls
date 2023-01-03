@@ -338,3 +338,6 @@
 \let\c@algorithm\c@figure
 \let\ftype@algorithm\ftype@figure
 \makeatother
+
+% Nuorodos turinyje ir kitur padaromos aktyviomis
+\RequirePackage[hidelinks]{hyperref}
