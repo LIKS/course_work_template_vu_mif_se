@@ -341,3 +341,13 @@
 
 % Nuorodos turinyje ir kitur padaromos aktyviomis
 \RequirePackage[hidelinks]{hyperref}
+
+% Nustatomas PDF pavadinimas ir autorius
+\makeatletter
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle = {\@title},
+    pdfauthor = {\@author}
+  }
+}
+\makeatother
