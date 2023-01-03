@@ -321,3 +321,7 @@
 % Tarpai tarp išnašų eilučių nustatomi į 1.5 eilutės
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\onehalfspacing #1}}
+
+% Panaikinami dvigubi tarpai tarp sąrašo elementų
+\RequirePackage{enumitem}
+\setlist{nosep}
