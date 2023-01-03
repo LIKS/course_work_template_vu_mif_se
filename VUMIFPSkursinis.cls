@@ -76,7 +76,8 @@
 
 % Nustatomas bibliografijos stilius
 \RequirePackage[
-    alldates=iso8601,
+    alldates=iso,
+    seconds=true,
     autolang=other,
     backend=biber,
     sortcites=true,
