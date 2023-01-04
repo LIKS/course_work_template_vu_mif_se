@@ -14,7 +14,7 @@
 % Kursinio darbo apiforminimas pagal Vilniaus universiteto
 % Matematikos ir informatikos fakulteto Programų sistemų katedros reikalavimus
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{VUMIFPSkursinis}[2023/01/03 1.1 VU MIF SE course work class]
+\ProvidesClass{VUMIFPSkursinis}[2023/01/04 1.1 VU MIF SE course work class]
 \LoadClass[12pt, a4paper]{article}
 \RequirePackage{LTPlius}  % Nustatymų sulietuvinimas
 \RequirePackage{fontspec} % Šrifto pasirinkimui
@@ -88,6 +88,11 @@
     maxnames=9,
     minnames=4,
 ]{biblatex}
+% Literatūros sąrašą reikia pervadinti
+\DefineBibliographyStrings{lithuanian}{%
+    references = {Šaltiniai},
+}
+
 \RequirePackage[style=lithuanian]{csquotes}
 
 % Pliuso ženklas, kuris rodomas esant >3 autoriams, sumažinamas ir pakeliamas
@@ -282,11 +287,6 @@
     \footnotesize
 }
 
-% Literatūros sąrašą reikia pervadinti
-\addto\captionslithuanian{%
-    \renewcommand{\refname}{\v{S}altiniai}%
-}
-
 % Apibrėžiame ketvirto lygio skyrius
 \newcommand{\subsubsubsection}{\subsubparagraph}
 
@@ -342,14 +342,14 @@
 \makeatother
 
 % Nuorodos turinyje ir kitur padaromos aktyviomis
-\RequirePackage[hidelinks]{hyperref}
+\RequirePackage[hidelinks,linktoc=all]{hyperref}
 
 % Nustatomas PDF pavadinimas ir autorius
 \makeatletter
 \AtBeginDocument{
-  \hypersetup{
-    pdftitle = {\@title},
-    pdfauthor = {\@author}
-  }
+    \hypersetup{
+        pdftitle = {\@title},
+        pdfauthor = {\@author},
+    }
 }
 \makeatother
