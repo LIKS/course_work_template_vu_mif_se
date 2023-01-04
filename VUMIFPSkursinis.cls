@@ -206,6 +206,8 @@
 }
 
 \renewcommand\tableofcontents{%
+    % Sukuriame PDF nuorodą į turinį
+    \pdfbookmark[1]{\contentsname}{toc}%
     % Turinys su viengubu intervalu tarp eilučių
     \begin{singlespacing}%
         \section*{\bf\normalsize\centering\MakeUppercase\contentsname
@@ -214,7 +216,7 @@
     \@starttoc{toc}%
     \end{singlespacing}%
     \newpage%
-    }
+}
 
 % Tarpai tarp taškų turinyje
 \renewcommand{\@dotsep}{1}
@@ -245,7 +247,7 @@
 % Sekcija pradeda naują puslapį
 \renewcommand{\section}{%
     \cleardoublepage%
-    \@startsection {section}{1}{\z@}%
+    \@startsection{section}{1}{\z@}%
         {-3.5ex \@plus -1ex \@minus -.2ex}%
         {2.3ex \@plus.2ex}%
         {\normalfont\Large\bfseries}%
@@ -260,7 +262,7 @@
     \setcounter{section}{0}%
     \renewcommand{\thesection}{nr. \arabic{section}}%
     % Pridedame į turinį
-    \addcontentsline{toc}{section}{\MakeUppercase{Priedai}}%}
+    \addcontentsline{toc}{section}{Priedai}%
 }
 
 \def\@Appendix[#1]#2{%
@@ -318,7 +320,7 @@
     \noindent \textbf{Raktiniai žodžiai:}\; \textbf{#1}
 }
 
-% Tarpai tarp išnašų eilučių nustatomi į 1.5 eilutės
+% Tarpai tarp išnašų eilučių nustatomi į 1,5 eilutės
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\onehalfspacing #1}}
 
