@@ -14,7 +14,7 @@
 % Kursinio darbo apiforminimas pagal Vilniaus universiteto
 % Matematikos ir informatikos fakulteto Programų sistemų katedros reikalavimus
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{VUMIFPSkursinis}[2015/02/03 1.0 VU MIF SE course work class]
+\ProvidesClass{VUMIFPSkursinis}[2023/01/04 1.1 VU MIF SE course work class]
 \LoadClass[12pt, a4paper]{article}
 \RequirePackage{LTPlius}  % Nustatymų sulietuvinimas
 \RequirePackage{fontspec} % Šrifto pasirinkimui
@@ -25,7 +25,7 @@
     BoldFont=*-bold,
     ItalicFont=*-italic,
     BoldItalicFont=*-bolditalic
-]{texgyretermes}  % Teksto  šrifatas bus Nimbus Roman No9 L, kuris yra
+]{texgyretermes}  % Teksto  šriftas bus Nimbus Roman No9 L, kuris yra
                   % atviras Times New Roman šrifto atitikmuo
 \RequirePackage{setspace} % Intervalas tarp eilučių
 \RequirePackage[
@@ -76,7 +76,8 @@
 
 % Nustatomas bibliografijos stilius
 \RequirePackage[
-    alldates=iso8601,
+    alldates=iso,
+    seconds=true,
     autolang=other,
     backend=biber,
     sortcites=true,
@@ -87,6 +88,11 @@
     maxnames=9,
     minnames=4,
 ]{biblatex}
+% Literatūros sąrašą reikia pervadinti
+\DefineBibliographyStrings{lithuanian}{%
+    references = {Šaltiniai},
+}
+
 \RequirePackage[style=lithuanian]{csquotes}
 
 % Pliuso ženklas, kuris rodomas esant >3 autoriams, sumažinamas ir pakeliamas
@@ -205,6 +211,8 @@
 }
 
 \renewcommand\tableofcontents{%
+    % Sukuriame PDF nuorodą į turinį
+    \pdfbookmark[1]{\contentsname}{toc}%
     % Turinys su viengubu intervalu tarp eilučių
     \begin{singlespacing}%
         \section*{\bf\normalsize\centering\MakeUppercase\contentsname
@@ -213,7 +221,7 @@
     \@starttoc{toc}%
     \end{singlespacing}%
     \newpage%
-    }
+}
 
 % Tarpai tarp taškų turinyje
 \renewcommand{\@dotsep}{1}
@@ -244,7 +252,7 @@
 % Sekcija pradeda naują puslapį
 \renewcommand{\section}{%
     \cleardoublepage%
-    \@startsection {section}{1}{\z@}%
+    \@startsection{section}{1}{\z@}%
         {-3.5ex \@plus -1ex \@minus -.2ex}%
         {2.3ex \@plus.2ex}%
         {\normalfont\Large\bfseries}%
@@ -258,8 +266,8 @@
     }%
     \setcounter{section}{0}%
     \renewcommand{\thesection}{nr. \arabic{section}}%
-    % Insert record to TOC 
-    \addcontentsline{toc}{section}{\MakeUppercase{Priedai}}%}
+    % Pridedame į turinį
+    \addcontentsline{toc}{section}{Priedai}%
 }
 
 \def\@Appendix[#1]#2{%
@@ -277,11 +285,6 @@
      \centering#1\par}% \nohyphens\centering#1\par}%
     \vspace{\baselineskip}%
     \footnotesize
-}
-
-% Literatūros sąrašą reikia pervadinti
-\addto\captionslithuanian{%
-    \renewcommand{\refname}{\v{S}altiniai}%
 }
 
 % Apibrėžiame ketvirto lygio skyrius
@@ -317,6 +320,36 @@
     \noindent \textbf{Raktiniai žodžiai:}\; \textbf{#1}
 }
 
-% Tarpai tarp išnašų eilučių nustatomi į 1.5 eilutės
+% Tarpai tarp išnašų eilučių nustatomi į 1,5 eilutės
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\onehalfspacing #1}}
+
+% Panaikinami dvigubi tarpai tarp sąrašo elementų
+\RequirePackage{enumitem}
+\setlist{nosep}
+
+% Algoritmai apjuosiami kraštine
+\RequirePackage[boxed]{algorithm}
+
+% Algoritmai laikomi paveiksliukais, todėl turi vadintis pav.
+\DeclareCaptionLabelFormat{alg}{#2 #1}
+\captionsetup[algorithm]{name=pav,labelformat=alg,labelsep=period}
+
+% Algoritmų numeracija turi sutapti su paveiksliukų
+\makeatletter
+\let\c@algorithm\c@figure
+\let\ftype@algorithm\ftype@figure
+\makeatother
+
+% Nuorodos turinyje ir kitur padaromos aktyviomis
+\RequirePackage[hidelinks,linktoc=all]{hyperref}
+
+% Nustatomas PDF pavadinimas ir autorius
+\makeatletter
+\AtBeginDocument{
+    \hypersetup{
+        pdftitle = {\@title},
+        pdfauthor = {\@author},
+    }
+}
+\makeatother
