@@ -88,10 +88,16 @@
     maxnames=9,
     minnames=4,
 ]{biblatex}
+
 % Literatūros sąrašą reikia pervadinti
 \DefineBibliographyStrings{lithuanian}{%
     references = {Šaltiniai},
 }
+
+% Pridedame visus pacituotus darbus į kategoriją, tai leidžia
+% spausdinti tik pacituotus darbus su \printbibliography[category=cited]
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
 
 \RequirePackage[style=lithuanian]{csquotes}
 
