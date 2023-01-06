@@ -2,31 +2,32 @@
 %% Created by   „Atviras Kodas Lietuvai“  2015
 %
 %% Latest version available here: https://github.com/LIKS/course_work_template_vu_mif_se
-%% Any suggestions or contributions are welcome!  Also see: http://latex.liks.lt!
+%% Any suggestions or contributions are welcome!  Also see: https://latex.liks.lt!
 %
-%%  License CC BY 4.0 (see more at http://creativecommons.org/licenses/by/4.0/) 
+%% License CC BY 4.0 (see more at http://creativecommons.org/licenses/by/4.0/) 
 % You are free to (a) share - copy and redistribute the material in any medium
 % or format (b) adapt - remix, transform, and build upon the material for any
 % purpose, even commercially. As long as you give appropriate credit, provide a
-% link to the license, and indicate if changes were made.)
+% link to the license, and indicate if changes were made.
 
 
 % Kursinio darbo apiforminimas pagal Vilniaus universiteto
 % Matematikos ir informatikos fakulteto Programų sistemų katedros reikalavimus
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{VUMIFPSkursinis}[2023/01/04 1.1 VU MIF SE course work class]
+\ProvidesClass{VUMIFPSkursinis}[2023/01/06 1.2 VU MIF SE course work class]
 \LoadClass[12pt, a4paper]{article}
 \RequirePackage{LTPlius}  % Nustatymų sulietuvinimas
 \RequirePackage{fontspec} % Šrifto pasirinkimui
 \setmainfont[
+    Path=fonts/Palemonas3.2.05/,
     Ligatures=TeX,
-    Extension=.otf,
-    UprightFont= *-regular,
-    BoldFont=*-bold,
-    ItalicFont=*-italic,
-    BoldItalicFont=*-bolditalic
-]{texgyretermes}  % Teksto  šriftas bus Nimbus Roman No9 L, kuris yra
-                  % atviras Times New Roman šrifto atitikmuo
+    Extension=.ttf,
+    UprightFont=*-nm,
+    BoldFont=*-bd,
+    ItalicFont=*-it,
+    BoldItalicFont=*-bi,
+]{Palem3.2.05}  % Teksto šriftas bus Palemonas
+
 \RequirePackage{setspace} % Intervalas tarp eilučių
 \RequirePackage[
     left=3cm,
@@ -88,10 +89,16 @@
     maxnames=9,
     minnames=4,
 ]{biblatex}
+
 % Literatūros sąrašą reikia pervadinti
 \DefineBibliographyStrings{lithuanian}{%
     references = {Šaltiniai},
 }
+
+% Pridedame visus pacituotus darbus į kategoriją, tai leidžia
+% spausdinti tik pacituotus darbus su \printbibliography[category=cited]
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
 
 \RequirePackage[style=lithuanian]{csquotes}
 
