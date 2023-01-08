@@ -331,19 +331,6 @@
 \RequirePackage{enumitem}
 \setlist{nosep}
 
-% Algoritmai apjuosiami kraštine
-\RequirePackage[boxed]{algorithm}
-
-% Algoritmai laikomi paveiksliukais, todėl turi vadintis pav.
-\DeclareCaptionLabelFormat{alg}{#2 #1}
-\captionsetup[algorithm]{name=pav,labelformat=alg,labelsep=period}
-
-% Algoritmų numeracija turi sutapti su paveiksliukų
-\makeatletter
-\let\c@algorithm\c@figure
-\let\ftype@algorithm\ftype@figure
-\makeatother
-
 % Nuorodos turinyje ir kitur padaromos aktyviomis
 \RequirePackage[hidelinks,linktoc=all]{hyperref}
 
@@ -357,4 +344,17 @@
         \hypersetup{pdfauthor = {\@author\ and \@secondauthor}}
     }
 }
+\makeatother
+
+% Algoritmai apjuosiami kraštine
+\RequirePackage[boxed]{algorithm}
+
+% Algoritmai laikomi paveiksliukais, todėl turi vadintis pav.
+\DeclareCaptionLabelFormat{alg}{#2 #1}
+\captionsetup[algorithm]{name=pav,labelformat=alg,labelsep=period}
+
+% Algoritmų numeracija turi sutapti su paveiksliukų
+\makeatletter
+\let\c@algorithm\c@figure
+\let\ftype@algorithm\ftype@figure
 \makeatother
