@@ -95,7 +95,7 @@ Kuriant programinę įrangą ir valdant jos leidimus - susiformavo keli esminiai
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{img/WaterfallLT.png}
+    \includegraphics[scale=0.5]{img/WaterfallLT2.png}
     \caption{Krioklio metodo schema}
     \label{img:mlp}
 \end{figure}
@@ -160,26 +160,68 @@ Pagal atliktą „Stackoverflow“ tyrimą 2022 metais tarp visų versijavimo si
 
         \subsubsubsection{„GitFlow“ metodas}
 
-Tekstas
+Šis šakojimosi strategijos metodas suteikia programuotojams galimybę dirbti su keliais funkcionalumais tuo pačiu metu sukuriant po atskirą šaką kiekvienam iš jų. Jos yra sukuriamos išvedant iš pagrindinės šakos (paprastai vadinamos „Development“ arba „Develop“). Kai darbas su specifiniu funkcionalumu yra pabaigtas (t.y. kodas yra parašytas, patestuotas bei patvirtintas kitų kolegų kaip tinkamas), pakeitimai yra įliejami į pagrindinę šaką. Tačiau „GitFlow“ turi ir daugiau kompleksiškumo - skirtingai nei kai kuriuose kituose metoduose, naujas programinis kodas produkcinės aplinkos iškart nepasiekia po kodo suliejimo į pagrindinę šaką. Norint turėti naują leidimą į produkcinę aplinką - kuriamos atskiros leidimų šakos su nurodyta versija, tai leidžia turėti paraleliai daug produkcinių aplinkų su skirtingomis versijomis. Bet svarbu pastebėti, kad tai labai pailgina visą nepertraukiamo diegimo į aplinkas procesą, todėl kai yra reikalingi greiti pataisymai yra kuriamos šakos, kurios yra atskiros nuo visos struktūros, kad jos tiesiai keliautų į produkcinės aplinkos šaką, o iš jos automatinių procesų pakalba leidimas pasiekia klientų naudojamą produktą. Šiai strategijai išpildyti yra kuriamos tokio tipo šakos:
 
-        \subsubsubsection{„GitHub Flow“ metodas}
+\begin{itemize}
+    % TODO: Suinteresuotos šalys - įdėti į sąvokas
+  \item \textit{Production (Master)}. Šaka, kurioje laikomas visas produkcinės aplinkos kodas. Į ją kodas suliejamas tik iš tokių šakų kaip „Release“ ar „Hotfix“.
+  
+  \item \textit{Development (Develop)}. Ši šaka kaupia visą kodą, kuris yra produkcinėje aplinkoje, tik dar ir į ją yra suliejami nauji funkcionalumai iš „Feature“ tipo šakų. Kai norima naujo leidimo su įgyvendintu nauju kodu - iš šios šakos yra kuriama nauja, „Release“ tipo.
 
-Tekstas
+  \item \textit{Feature (feature-*)}. Kiekvienas naujas funkcionalumas turi savo atskirą šaką, kurioje yra kaupiamas visas kodas susijęs tik su tuo sprendimu. Galiausiai, kai kodas yra pilnai paruoštas, ši šaka yra liejama į „Development“ šaką.
 
-        \subsubsubsection{„GitLab Flow“ metodas}
+  \item \textit{Hotfix (hotfix-*)}. Šio tipo šakos yra naudojamos tik ypatingais atvejais, kuomet yra reikalingi skubūs kodo klaidų ištaisymai susiję su produkcine aplinka. Jose parašytas programinis kodas suliejamas tiesiogiai su produkcinės aplinkos šaka.
 
-Tekstas
+  
+  \item \textit{Release (release-*)}. Kai yra pasiruošiama naujam leidimui - kuriama šio tipo šaka. Paprastai savo pavadinime ji saugo versijos numerį. Jos pagrindinis tikslas yra būti pereinamąja dalimi tarp programuotojų aplinkos ir produkcinės aplinkos. Pagrindinis pranašumas naudoti šį tipą yra galimybė turėti paraleliai daug produkcinių aplinkų, sekti istoriją bei versijas.
+\end{itemize}
+
+Autoriaus nuomone didelis šio metodo kompleksiškumas gali sukurti ir nemažai problemų įmonėms, kurioms tokios stiprios kontrolės ir priežiūros nereikia. Imitavus vos poros funkcionalumų, vienos kritinės klaidos ir keletos paprastų klaidų scenarijų - kompleksiškumas išauga eksponentiškai.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/GitFlowBold.png}
+    \caption{„GitFlow“ metodo pavyzdinio scenarijaus iliustracija}
+    \label{img:mlp}
+\end{figure}
+
+        \subsubsubsection{„GitHub Flow“ ir „GitLab Flow“ metodai}
+
+Ši „Git“ šakojimosi strategija pasižymi paprastumu ir patogumu naudotis. Iš esmės ji veikia labai panašiu principu kaip ir jau aptartas „GitFlow“ metodas, tik yra atsisakoma tokių šakų tipų kaip: „Hotfix“, „Release“, „Development“. Dirbama tik su „Feature“ tipo šakomis, kuriose yra kuriami nauji funkcionalumai ir juos pabaigus bei komandos nariams užtvirtinus, kad nauja kodo bazė paruošta tinkamai - jis yra suliejimas į šaką „Production“. Ji visada yra palaikoma nepertraukiamo diegimo ir vos tik funkcionalumas pasiekia produkcinės aplinkos šaką - automatizuoti procesai įdiegia į klientų naudojamą programą naują leidimą \cite{SaltDevintas}. Tačiau sumažintas kompleksiškumas sukuria nemažai ir problemų - lyginant su pirmuoju metodu nebėra saugoma istorija versijų, produkcinis kodas gali būti nestabilus, nes nėra tarpinės šakos tarp funkcionalumo ir „Production“ šakų.
+
+Tuo tarpu „GitLab Flow“ irgi yra paprastesnė „GitFlow“ alternatyva, tik skirtingai nuo „GitHub“ sukurto sprendimo, šis vietoj vienos produkcinės aplinkos šakos, turi dvi pagrindines \cite{SaltDesimtas}:
+
+\begin{itemize}
+    % TODO: Suinteresuotos šalys - įdėti į sąvokas
+  \item \textit{Staging}. Šaka į kurią yra suliejamos naujų funkcionalumų ar klaidų taisymo šakos. Joje esantis kodas automatinių procesų pagalba visada yra atnaujinimas su kiekvienu suliejimu ir įdiegiamas į stabilią, bet ne produkcinę aplinką (ji paprastai yra pasiekiama tik užsakovams, programuotojams ir produktą integruojančioms kitoms įmonėms).
+  
+  \item \textit{Production}. Kai nusprendžiama, kad stabilioje aplinkoje esantis kodas yra tinkamas - jis suliejamas iš „Staging“ šakos į šią. Tuomet lygiai taip pat - automatiniai procesai užtikrina, jog naujas diegimas pasiektų produkcinę aplinką, kuria jau naudojasi patys vartotojai.
+
+\end{itemize}
+
+% TODO: Parašyti papildomą sakinį apie palyginimą su GitFlow, kad žymiai paprasčiau ir t.t., tada padaryti irgi pavyzdinio scenarijaus schemą, kuri parodytų, kad čia jau viskas veikia žymiai paprasčiau
 
         \subsubsubsection{„Trunk-based development“ metodas}
 
-Tekstas
+Šios strategijos pagrindinis skirtumas yra tas, kad programuotojai dirba tiesiogiai su pagrindine šaka, dar kitaip vadinama šiame metode - kamienu. Šiuo metodu yra siekiama, kad kodas visada būtų stabilus ir pasiruošęs diegimu ir programuotojai galėtų greit ir efektyviai įgyvendinti mažus pakitimus be jokių papildomų trikdžių. Kadangi nėra naudojamos jokios kitos papildomos šakos - funkcionalumams yra naudojami žymės (angl. \textit{tag}), kurios apibrėžia kokį funkcionalumą programutojas paruošė. Autoriaus nuomone tai yra viena rizikingiausių strategijų, nes kodas nėra niekieno peržiūrimas ir keliauja tiesiai į produkcinę aplinką, tačiau programinės įrangos išleidimo valdymas yra paprastai turint net ir daug funkcionalumų.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{img/TrunkBased.png}
+    \caption{„Trunk-based development“ metodo pavyzdinio scenarijaus su keliasi funkcionalumais iliustracija}
+    \label{img:mlp}
+\end{figure}
+
+% is a branching strategy where developers work directly on the main branch, also known as the "trunk." This means that there is only one main branch, and all code changes are made directly to it. This strategy is based on the idea that the trunk should always be in a stable and deployable state, and that developers should be able to make small, frequent changes to the codebase without causing disruptions.
+
+% yra šakojimo strategija, kai kūrėjai dirba tiesiogiai su pagrindine šaka, dar vadinama „kamienu“. Tai reiškia, kad yra tik viena pagrindinė šaka, o visi kodo pakeitimai atliekami tiesiai į jį. Ši strategija pagrįsta idėja, kad bagažinė visada turi būti stabilios ir įdiegiamos būsenos, o kūrėjai turėtų turėti galimybę atlikti nedidelius, dažnus kodų bazės pakeitimus, nesukeldami trikdžių.
 
 % Straipsniai
 % https://www.flagship.io/git-branching-strategies/
 % https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf
 
 % 2 dalis. Laikinosios aplinkos
-\section{Laikinųjų aplinkų sprendimo analizė}
+\section{Laikinųjų aplinkų strategijos analizė}
 Medžiagos darbo tema dėstymo skyriuose pateikiamos nagrinėjamos temos detalės:
 pradinė medžiaga, jos analizės ir apdorojimo metodai, sprendimų įgyvendinimas,
 gautų rezultatų apibendrinimas. Šios dalies turinys labai priklauso nuo darbo
@@ -202,7 +244,7 @@ Citavimo pavyzdžiai: cituojamas vienas šaltinis
 
 
 %  3 dalis. Praktinė dalis
-\section{Skyrius}
+\section{Praktinis laikinųjų aplinkų sprendimas}
 \subsection{Poskyris}
 \subsection{Poskyris}
 
