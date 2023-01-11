@@ -1,7 +1,5 @@
 generuoti:
-	xelatex kursinis.tex
-	biber kursinis
-	xelatex kursinis.tex
+	latexmk -xelatex kursinis.tex
 	open kursinis.pdf || xdg-open kursinis.pdf
 
 ubuntu:
