@@ -11,5 +11,8 @@ ubuntu:
 wordcount:
 	texcount -total -utf8 kursinis.tex
 
+check:
+	chktex kursinis.tex
+
 clean:
 	git clean -dfx
