@@ -18,6 +18,9 @@
 \LoadClass[12pt, a4paper]{article}
 \RequirePackage{LTPlius}  % Nustatymų sulietuvinimas
 \RequirePackage{fontspec} % Šrifto pasirinkimui
+% Teksto šriftas bus Palemonas.
+% Naujos Palemono versijos talpinamos
+% https://vlkk.lt/palemonas
 \setmainfont[
     Path=fonts/Palemonas3.2.05/,
     Ligatures=TeX,
@@ -26,7 +29,7 @@
     BoldFont=*-bd,
     ItalicFont=*-it,
     BoldItalicFont=*-bi,
-]{Palem3.2.05}  % Teksto šriftas bus Palemonas
+]{Palem3.2.05}
 
 \RequirePackage{setspace} % Intervalas tarp eilučių
 \RequirePackage[
@@ -84,11 +87,9 @@
     references = {Šaltiniai},
 }
 
-% Pridedame visus pacituotus darbus į kategoriją, tai leidžia
-% spausdinti tik pacituotus darbus su \printbibliography[category=cited]
-\DeclareBibliographyCategory{cited}
-\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
-
+% TODO: pašalinti csquotes.cfg failą 2025 metais, nes csquotes
+% paketas pridėjo lietuvišką kabučių stilių 2023-01-24, tad nebereikės
+% specialios konfigūracijos, kai nauja versija bus plačiai prieinama
 \RequirePackage[style=lithuanian]{csquotes}
 
 % -------------------------------
