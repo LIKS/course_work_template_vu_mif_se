@@ -1,5 +1,5 @@
 generuoti:
-	latexmk -xelatex kursinis.tex
+	latexmk -lualatex kursinis.tex
 	open kursinis.pdf || xdg-open kursinis.pdf
 
 ubuntu:
