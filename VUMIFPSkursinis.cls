@@ -71,7 +71,7 @@
 \RequirePackage[
     alldates=iso,
     seconds=true,
-    autolang=other,
+    autolang=none,
     backend=biber,
     sortcites=true,
     style=trad-alpha,
@@ -341,11 +341,11 @@
 % į puslapius (su XeLaTeX neveikia).
 \RequirePackage{iftex}
 \ifLuaTeX
-\makeatletter
-\let\ORG@hyper@linkstart\hyper@linkstart
-\protected\def\hyper@linkstart#1#2{%
-  \lowercase{\ORG@hyper@linkstart{#1}{#2}}}
-\makeatother
+  \makeatletter
+  \let\ORG@hyper@linkstart\hyper@linkstart
+  \protected\def\hyper@linkstart#1#2{%
+    \lowercase{\ORG@hyper@linkstart{#1}{#2}}}
+  \makeatother
 \fi
 
 % Nustatomas PDF pavadinimas ir autorius
