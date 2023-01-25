@@ -240,7 +240,7 @@
       \leavevmode {
       \advance\leftskip\@tempdima
       \hskip -\leftskip
-      % Uppercasing first level titles
+      % Skyrių pavadinimai paverčiami vien didžiosiomis raidėmis
       \MakeUppercase{#1}}\nobreak\
       \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
      \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
@@ -333,6 +333,21 @@
 % Nuorodos turinyje ir kitur padaromos aktyviomis
 \RequirePackage[hidelinks,linktoc=all]{hyperref}
 
+% Pataisymas, kad veiktų kompiliavimas su LuaLaTeX.
+% Bus galima pašalinti 2025 m., nes pataisymas jau yra
+% naujausioje hyperref paketo versijoje:
+% https://github.com/latex3/hyperref/issues/121#issuecomment-589834307
+% Kompiliavimas su LuaLaTeX padaro, kad veiktų turinio skyrių nuorodos
+% į puslapius (su XeLaTeX neveikia).
+\RequirePackage{iftex}
+\ifLuaTeX
+\makeatletter
+\let\ORG@hyper@linkstart\hyper@linkstart
+\protected\def\hyper@linkstart#1#2{%
+  \lowercase{\ORG@hyper@linkstart{#1}{#2}}}
+\makeatother
+\fi
+
 % Nustatomas PDF pavadinimas ir autorius
 \makeatletter
 \AtBeginDocument{
@@ -350,7 +365,7 @@
 
 % Algoritmai laikomi paveiksliukais, todėl turi vadintis pav.
 \DeclareCaptionLabelFormat{alg}{#2 #1}
-\captionsetup[algorithm]{name=pav,labelformat=alg,labelsep=period}
+\captionsetup[algorithm]{name=pav.,labelformat=alg,labelsep=space}
 
 % Algoritmų numeracija turi sutapti su paveiksliukų
 \makeatletter
