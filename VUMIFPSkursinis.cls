@@ -14,7 +14,7 @@
 % Kursinio darbo apiforminimas pagal Vilniaus universiteto
 % Matematikos ir informatikos fakulteto Programų sistemų katedros reikalavimus
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{VUMIFPSkursinis}[2023/01/06 1.2 VU MIF SE course work class]
+\ProvidesClass{VUMIFPSkursinis}[2023/01/26 1.3 VU MIF SE course work class]
 \LoadClass[12pt, a4paper]{article}
 \RequirePackage{LTPlius}  % Nustatymų sulietuvinimas
 \RequirePackage{fontspec} % Šrifto pasirinkimui
