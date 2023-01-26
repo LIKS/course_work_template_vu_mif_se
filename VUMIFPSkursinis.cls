@@ -334,9 +334,9 @@
 \RequirePackage[hidelinks,linktoc=all]{hyperref}
 
 % Pataisymas, kad veiktų kompiliavimas su LuaLaTeX.
-% Bus galima pašalinti 2025 m., nes pataisymas jau yra
+% TODO: galima pašalinti 2025 m., nes pataisymas jau yra
 % naujausioje hyperref paketo versijoje:
-% https://github.com/latex3/hyperref/issues/121#issuecomment-589834307
+% https://github.com/latex3/hyperref/issues/121
 % Kompiliavimas su LuaLaTeX padaro, kad veiktų turinio skyrių nuorodos
 % į puslapius (su XeLaTeX neveikia).
 \RequirePackage{iftex}
