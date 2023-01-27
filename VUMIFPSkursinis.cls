@@ -88,13 +88,21 @@
     references = {Šaltiniai},
 }
 
+% Autorius rašomas kaip Vardas Pavardė, ne Pavardė, Vardas
 \DeclareNameAlias{default}{given-family}
+% Skirtukai tarp autorių padaromi kableliais
 \DeclareDelimFormat{multinamedelim}{\addcomma\space}
 \DeclareDelimFormat{finalnamedelim}{\addcomma\space}
+% Nepaverčiame pavardžių didžiosiomis raidėmis
 \renewcommand{\familynameformat}[1]{#1}
 
 % Pliuso ženklas, kuris rodomas esant >3 autoriams, sumažinamas ir pakeliamas
 \renewcommand*{\labelalphaothers}{\textsuperscript{+}}
+
+% Nutildome įspėjimus dėl neegzistuojančių failų.
+\usepackage{silence}
+\WarningFilter{biblatex}{File 'american-iso.lbx' not found!}
+\WarningFilter{biblatex}{File 'lithuanian-iso.lbx' not found!}
 
 % TODO: pašalinti csquotes.cfg failą 2025 metais, nes csquotes
 % paketas pridėjo lietuvišką kabučių stilių 2023-01-24, tad nebereikės
@@ -274,6 +282,9 @@
     }%
     \setcounter{section}{0}%
     \renewcommand{\thesection}{nr. \arabic{section}}%
+    % Pataisymas, kad PDF žymėse pridėtų kaip atskirą skyrių
+    % (be šio pataisymo prideda kaip praeito skyriaus poskyrį)
+    \phantomsection%
     % Pridedame į turinį
     \addcontentsline{toc}{section}{Priedai}%
 }

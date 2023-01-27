@@ -8,7 +8,7 @@
 
 ### Linux
 
-Reikia instaliuoti Tex Live.
+Instaliuoti Tex Live.
 
 #### Ubuntu
 
@@ -16,23 +16,23 @@ Užtenka įvydyti `make ubuntu` šio projekto direktorijoje.
 
 ### Overleaf
 
-Reikia pakeisti kompiliatorių į LuaLaTeX, žr. https://www.overleaf.com/learn/how-to/Changing_compiler.
+Reikia pakeisti kompiliatorių į LuaLaTeX, žr.: https://www.overleaf.com/learn/how-to/Changing_compiler.
 
 ### Windows
 
-Reikia instaliuoti vieną iš:  
+Instaliuoti vieną iš:  
 - [Tex Live](https://tug.org/texlive/windows.html)  
-- [MikTex](https://miktex.org/download). Tada reikia papildomai įrašyti `biber`
+- [MikTex](https://miktex.org/download), jam reikia papildomai įrašyti `biber`
 
 ### macOS
 
-Reikia instaliuoti [MacTex](https://tug.org/mactex).
+Instaliuoti [MacTex](https://tug.org/mactex).
 
 ## PDF generavimas
 
 ### Linux / macOS
 
-Reikia įvykdyti vieną iš:  
+Įvykdyti vieną iš:  
 - `make`  
 - `make generuoti`  
 - `latexmk -lualatex kursinis.tex` (ta pati komanda, kurią įvykdo kiti du variantai)
