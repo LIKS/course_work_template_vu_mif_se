@@ -211,7 +211,7 @@
   \global\let\@signatureplace\relax
   \global\let\checkifdefined\relax
   \setcounter{footnote}{0}%
-  % Nustatome dokumentui 1,5 eilutės intervalą
+  % Nustatome dokumentui 1,5 tarpo tarp eilučių intervalą
   \onehalfspacing
 }
 
@@ -223,18 +223,19 @@
 
 % Skyriaus pavadinimas, neturintis numerio bei neįeinantis į turinį
 \newcommand{\sectionnonumnocontent}[1]{%
-    \section*{#1}%   Sugadina pirmojo šio tipo skyriaus numeravimą puslapiais
+    \section*{#1}%
+    \sectionbookmark{#1}% Sukuriame PDF nuorodą
 }
 
 \renewcommand\tableofcontents{%
-    % Sukuriame PDF nuorodą į turinį
-    \pdfbookmark[1]{\contentsname}{toc}%
     % Turinys su viengubu intervalu tarp eilučių
     \begin{singlespacing}%
-        \section*{\bf\normalsize\centering\MakeUppercase\contentsname
-        \@mkboth{%
-           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
-    \@starttoc{toc}%
+        \section*{%
+            \bf\normalsize\centering\MakeUppercase\contentsname%
+            \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
+        }%
+        \sectionbookmark{\contentsname}% Sukuriame PDF nuorodą į turinį
+        \@starttoc{toc}%
     \end{singlespacing}%
     \newpage%
 }
@@ -278,7 +279,7 @@
 \renewcommand{\appendix}{%
     \renewcommand{\section}{%
         \cleardoublepage%
-         \secdef\@Appendix\@sAppendix%
+        \secdef\@Appendix\@sAppendix%
     }%
     \setcounter{section}{0}%
     \renewcommand{\thesection}{nr. \arabic{section}}%
@@ -377,6 +378,18 @@
     }{
         \hypersetup{pdfauthor = {\@author\ and \@secondauthor}}
     }
+}
+\makeatother
+
+% Paimta iš https://tex.stackexchange.com/a/330535
+\RequirePackage{bookmark}
+\makeatletter
+\newcommand*{\sectionbookmark}[1][]{%
+  \bookmark[%
+    level=section,%
+    dest=\@currentHref,%
+    #1%
+  ]%
 }
 \makeatother
 
