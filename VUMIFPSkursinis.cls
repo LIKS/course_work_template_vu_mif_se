@@ -123,7 +123,7 @@
   \checkifdefined{@supervisor}%
     {Tituliniame puslapyje nenurodytas darbo vadovas (komanda \protect\supervisor)}
   % Specialiai pašaliname titulinio puslapio numerį (nors jo ir šiaip nėra),
-  % kad xdvipdfmx nerodytų įspėjimo dėl pakartotinai naudojamo 1 puslapio numerio
+  % kad nerodytų įspėjimo dėl pakartotinai naudojamo 1 puslapio numerio
   \pagenumbering{gobble}%
   ~
   \begin{center}
