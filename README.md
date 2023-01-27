@@ -36,3 +36,7 @@ Instaliuoti [MacTex](https://tug.org/mactex).
 - `make`  
 - `make generuoti`  
 - `latexmk -lualatex kursinis.tex` (ta pati komanda, kurią įvykdo kiti du variantai)
+
+### Windows
+
+Įvykdyti `latexmk -lualatex kursinis.tex`.
