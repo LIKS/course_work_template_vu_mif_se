@@ -5,7 +5,9 @@
 Šablonas naudoja:  
 - `latexmk` kompiliavimo paleidimui  
 - `lualatex` PDF generavimui  
-- `biblatex` ir `biber` bibliografijos tvarkymui  
+- `biblatex` ir `biber` bibliografijos tvarkymui
+
+Pagrindinis šriftas yra [Palemonas](https://vlkk.lt/palemonas).
 
 ### Linux
 
