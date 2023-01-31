@@ -1,3 +1,5 @@
+.PHONY: generuoti ubuntu wordcount check clean
+
 generuoti:
 	latexmk -lualatex kursinis.tex
 	open kursinis.pdf || xdg-open kursinis.pdf
