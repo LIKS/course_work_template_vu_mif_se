@@ -15,4 +15,4 @@ check:
 	chktex kursinis.tex
 
 clean:
-	git clean -dfx
+	git clean -dfX
