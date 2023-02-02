@@ -38,7 +38,7 @@ Instaliuoti [MacTex](https://tug.org/mactex).
 Įvykdyti vieną iš:  
 - `make`  
 - `make pdf`  
-- `latexmk -lualatex kursinis.tex` (ta pati komanda, kurią įvykdo kiti du variantai)
+- `latexmk -lualatex -halt-on-error kursinis.tex` (ta pati komanda, kurią įvykdo kiti du variantai)
 
 ### Windows
 
