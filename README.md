@@ -42,7 +42,7 @@ Instaliuoti [MacTex](https://tug.org/mactex).
 
 ### Windows
 
-Įvykdyti `latexmk -lualatex kursinis.tex`.
+Įvykdyti `latexmk -lualatex -halt-on-error kursinis.tex`.
 
 ## Kitos naudingos komandos
 
