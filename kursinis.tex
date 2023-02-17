@@ -14,6 +14,7 @@
 \usepackage{subcaption}
 \usepackage{wrapfig}
 \usepackage{biblatex}
+\usepackage{microtype}
 
 % Titulinio aprašas
 \university{Vilniaus universitetas}
@@ -27,6 +28,7 @@
 \author{Vardenis Pavardenis}
 % \secondauthor{Vardonis Pavardonis}   % Pridėti antrą autorių
 \supervisor{prof. habil. dr. Vardaitis Pavardaitis}
+% \addsignatureplaces{} % prideda parašų vietas tituliniame puslapyje
 \date{Vilnius – \the\year}
 
 \bibliography{bibliografija}
@@ -38,7 +40,7 @@
 
 \sectionnonum{Įvadas}
 Įvade apibūdinamas darbo tikslas, temos aktualumas ir siekiami rezultatai.
-Darbo įvadas neturi būti dėstymo santrauka. Įvado apimtis 1–2 puslapiai.
+Darbo įvadas neturi būti dėstymo santrauka. Įvado apimtis 1–-2 puslapiai.
 
 \section{Medžiagos darbo tema dėstymo skyriai}
 Medžiagos darbo tema dėstymo skyriuose pateikiamos nagrinėjamos temos detalės:
@@ -61,7 +63,7 @@ PvzElPubLt, PvzElPubEn, PvzMagistrLt, PvzPhdEn}.
 
 \subsection{Faktorialo algoritmas}
 
-\ref{alg:factorial} pav. parodytas faktorialo algoritmas.
+\ref{alg:factorial} pav. pateiktas faktorialo algoritmas.
 
 \begin{algorithm}
 \begin{algorithmic}[1] % [1] padaro, kad eilutės būtų sunumeruotos
@@ -91,9 +93,9 @@ rekomendacijos, akcentuojamos naujovės).
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
 % literatūra, kitokie šaltiniai. Abėcėlės tvarka išdėstomi darbe panaudotų
 % (cituotų, perfrazuotų ar bent paminėtų) mokslo leidinių, kitokių publikacijų
-% bibliografiniai aprašai.  Šaltinių sąrašas spausdinamas iš naujo puslapio.
+% bibliografiniai aprašai. Šaltinių sąrašas spausdinamas iš naujo puslapio.
 % Aprašai pateikiami netransliteruoti. Šaltinių sąraše negali būti tokių
-% šaltinių, kurie nebuvo paminėti tekste.
+% šaltinių, kurie nebuvo paminėti tekste (LaTeX tai sutvarko automatiškai).
 
 % \sectionnonum{Sąvokų apibrėžimai}
 \sectionnonum{Santrumpos}
