@@ -14,9 +14,21 @@
 % Kursinio darbo apiforminimas pagal Vilniaus universiteto
 % Matematikos ir informatikos fakulteto Programų sistemų katedros reikalavimus
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{VUMIFPSkursinis}[2023/01/30 1.4 VU MIF SE course work class]
+\ProvidesClass{VUMIFPSkursinis}[2023/06/13 1.7 VU MIF SE course work class]
 \LoadClass[12pt, a4paper]{article}
 \RequirePackage{LTPlius}  % Nustatymų sulietuvinimas
+
+% Darbo kalba gali būti anglų
+\DeclareOption{english}{%
+    \def\@ThesisEng{}%
+    \setmainlanguage{english}%
+    \setotherlanguage{lithuanian}%
+}
+\DeclareOption{signatureplaces}{%
+    \def\@addsignatureplaces%
+}
+\ProcessOptions\relax
+
 \RequirePackage{fontspec} % Šrifto pasirinkimui
 % Teksto šriftas bus Palemonas.
 % Naujos Palemono versijos talpinamos
@@ -37,9 +49,17 @@
     top=2cm,
     right=1.5cm,
     bottom=2cm,
-    footskip=0.6cm,
+    footskip=0.7cm,
 ]{geometry}  % Lapo paraštės
-\sloppy  % Tolygiai paskirsto tekstą nuo kairės iki dešinės paraštės
+% Tolygiai paskirsto tekstą nuo kairės iki dešinės paraštės
+% \sloppy alternatyva
+\tolerance 1414
+\hbadness 1414
+\emergencystretch 1.5em
+\hfuzz 0.3pt
+\widowpenalty=10000
+\vfuzz \hfuzz
+
 \RequirePackage[titles]{tocloft} % Turinio eilučių išlygiavimo nustatymui
 \RequirePackage{fancyhdr} % Puslapio numerio vietos nustatymui
 \pagestyle{fancy}
@@ -57,38 +77,58 @@
 \newcommand{\faculty}[1]{\def\@faculty{#1}}
 \newcommand{\papertype}[1]{\def\@papertype{#1}}
 \newcommand{\department}[1]{\def\@department{#1}}
-\newcommand{\institute}[1]{\def\@institute{#1}}
 \newcommand{\supervisor}[1]{\def\@supervisor{#1}}
 \newcommand{\reviewer}[1]{\def\@reviewer{#1}}
 \newcommand{\status}[1]{\def\@status{#1}}
 \newcommand{\titleineng}[1]{\def\@titleineng{#1}}
 \newcommand{\secondauthor}[1]{\def\@secondauthor{#1}}
-\newcommand{\addsignatureplaces}{\def\@addsignatureplaces}
 
-% Pirmos eilutės paragrafe atitraukimas 1 cm
+% Pirma pastraipos eilutė atitraukiama 1 cm
 \setlength{\parindent}{1cm}
 
 % Nustatomas bibliografijos stilius
 \RequirePackage[
     alldates=iso,
     seconds=true,
-    autolang=none,
+    % Iš publikavimo datos rodomi tik metai
+    date=year,
+    % pakeičiame žodžių skaidymą skiemenimis, kai langid nėra lithuanian
+    autolang=hyphen,
     backend=biber,
+    eprint=false,
     sortcites=true,
     sorting=anyt,
+    giveninits=true,
     style=iso-alphabetic,
-    abbreviate=true,
+    abbreviate=false,
     minalphanames=3,
     maxalphanames=3,
     maxnames=9,
     minnames=4,
 ]{biblatex}
 
-% Literatūros sąrašą reikia pervadinti
 \DefineBibliographyStrings{lithuanian}{%
+    % Literatūros sąrašas.
     references = {Šaltiniai},
-    in = {},
+    in = {iš},
+    % Terminai, vartojami biblatex-iso690 bibliografijos stiliuje.
+    % Žr. https://github.com/michal-h21/biblatex-iso690/wiki/Translation-Guideline
+    urlalso = {prieiga per internetą},
+    urlfrom = {prieiga per internetą},
+    urlseen = {žiūrėta},
+    % Žr. https://terminai.vlkk.lt/konsultacijos/1986-on-line-prijungtas-prijungtis
+    online = {internetinis},
 }
+
+% Pliuso ženklas, kuris rodomas esant >3 autoriams, sumažinamas ir pakeliamas
+\renewcommand*{\labelalphaothers}{\textsuperscript{+}}
+
+
+% Biblatex-iso690 pakeitimai
+
+% DOI laukas turėtų spausdinti pilną URL, ne tik identifikatorių. Pakeista iš
+% https://github.com/michal-h21/biblatex-iso690/blob/7ae03dbdff1f187cfead57c5108a73a6b5021f68/iso.bbx#L377
+\DeclareFieldFormat{doi}{\addcolon\space\url{https://doi.org/#1}}
 
 % Autorius rašomas kaip Vardas Pavardė, ne Pavardė, Vardas
 \DeclareNameAlias{default}{given-family}
@@ -98,18 +138,32 @@
 % Nepaverčiame pavardžių didžiosiomis raidėmis
 \renewcommand{\familynameformat}[1]{#1}
 
-% Pliuso ženklas, kuris rodomas esant >3 autoriams, sumažinamas ir pakeliamas
-\renewcommand*{\labelalphaothers}{\textsuperscript{+}}
+% Padarome, kad nepridėtų [internetinis] prie šaltinių, turinčių
+% url lauką. Nukopijuota ir pakeista iš
+% https://github.com/michal-h21/biblatex-iso690/blob/7ae03dbdff1f187cfead57c5108a73a6b5021f68/iso.bbx#L721-L750
+\renewbibmacro*{medium-type}{%
+  \iffieldundef{howpublished}{}% Don't print anything
+    {\ifboolexpr{
+        test {\iffieldequalstr{howpublished}{online}}
+        and not test {\iftoggle{bbx:url}}
+        and not test {\ifentrytype{online}}
+      }
+        {}% Don't print 'howpublished' field
+        {\printfield{howpublished}}}%
+}
 
 % Nutildome įspėjimus dėl neegzistuojančių failų.
 \usepackage{silence}
 \WarningFilter{biblatex}{File 'american-iso.lbx' not found!}
 \WarningFilter{biblatex}{File 'lithuanian-iso.lbx' not found!}
 
+
 % TODO: pašalinti csquotes.cfg failą 2025 metais, nes csquotes
 % paketas pridėjo lietuvišką kabučių stilių 2023-01-24, tad nebereikės
 % specialios konfigūracijos, kai nauja versija bus plačiai prieinama
-\RequirePackage[style=lithuanian]{csquotes}
+\RequirePackage[autostyle=true]{csquotes}
+
+\RequirePackage[babel=true]{microtype}
 
 % -------------------------------
 % Titulinio puslapio formatavimas
@@ -119,7 +173,9 @@
     % teksto išdėstymas neturėtų smarkiai keistis
     \@ifundefined{@addsignatureplaces}{\qquad}{%
         \parbox[t]{2.5cm}{%
-            \makebox[2.5cm]{\raisebox{-0.5ex}{\scriptsize{(parašas)}}}%
+            \makebox[2.5cm]{\raisebox{-0.9ex}{\scriptsize
+                \@ifundefined{@ThesisEng}{(parašas)}{(signature)}%
+                }}%
         }}
 }
 
@@ -127,30 +183,37 @@
     % Patikriname, ar visa reikalinga informacija tituliniam puslapiui
     % buvo nurodyta. #1 yra tikrinama reikšmė (be \ priekyje),
     % #2 - klaidos pranešimas.
-    \@ifundefined{#1}{\PackageError{VUMIF}{#2}{Add the missing command}}%
+    \@ifundefined{#1}{\ClassError{VUMIF}{#2}{Add the missing command}}%
 }
 
 \renewcommand\maketitle{\begin{titlepage}%
+  \checkifdefined{@university}%
+    {Tituliniame puslapyje nenurodytas universitetas (komanda \protect\university)}
+  \checkifdefined{@faculty}%
+    {Tituliniame puslapyje nenurodytas fakultetas (komanda \protect\faculty)}
   \checkifdefined{@department}%
-    {Tituliniame puslapyje nenurodyta katedra (komanda \protect\department)}
+    {Tituliniame puslapyje nenurodyta studijų programa (komanda \protect\department)}
+  \checkifdefined{@papertype}%
+    {Tituliniame puslapyje nenurodytas darbo tipas (komanda \protect\papertype)}
   \checkifdefined{@supervisor}%
     {Tituliniame puslapyje nenurodytas darbo vadovas (komanda \protect\supervisor)}
-  % Specialiai pašaliname titulinio puslapio numerį (nors jo ir šiaip nėra),
-  % kad nerodytų įspėjimo dėl pakartotinai naudojamo 1 puslapio numerio
-  \pagenumbering{gobble}%
+  \checkifdefined{@reviewer}%
+    {Tituliniame puslapyje nenurodytas darbo recenzentas (komanda \protect\reviewer)}
   ~
   \begin{center}
       {\setstretch{1.3}\large \MakeUppercase{\@university} \\
          \MakeUppercase{\@faculty} \\
-         \ifdefined\@institute
-             \MakeUppercase{\@institute} \\
-         \fi
          \MakeUppercase{\@department}\par }
 
      \null\vfil
-     \vskip 2.5cm
-     {\singlespacing \LARGE \textbf{\@title} \par}
-     {\singlespacing \Large \textbf{\@titleineng} \par}%
+     \vskip 3cm
+    \@ifundefined{@ThesisEng}{%
+        {\singlespacing \LARGE \textbf{\@title} \par}
+        {\singlespacing \Large \textbf{\textenglish{\@titleineng}} \par}%
+    }{%
+        {\singlespacing \LARGE \textbf{\@titleineng} \par}%
+        {\singlespacing \Large \textbf{\textlithuanian{\@title}} \par}
+    }%
      \vskip 0.8cm
      {\large \@papertype}%
   \end{center}
@@ -160,10 +223,15 @@
         \large
         \singlespacing
         {\begin{tabular}[t]{l l}%
-        \medskip Atliko: &\; \@status \\
-        \medskip\bigskip   &\; \@author \hfill \@signatureplace \\
-        \bigskip Darbo vadovas: &\; \@supervisor \hfill  \@signatureplace \\
-        % Recenzentas: &\; \@reviewer \hfill \@signatureplace
+        \@ifundefined{@ThesisEng}{%
+            \bigskip Atliko: &\; \@status \\
+            \medskip\bigskip &\; \@author \hfill \hfill \@signatureplace \\
+            \bigskip Darbo vadovas: &\; \@supervisor \hfill \@signatureplace \\
+        }{%
+            \bigskip Author: &\; \@status \\
+            \medskip\bigskip &\; \@author \hfill \hfill \@signatureplace \\
+            \bigskip Supervisor: &\; \@supervisor \hfill \@signatureplace \\
+        }%
         \end{tabular} \par}%
      \end{flushright}
   }{
@@ -172,23 +240,29 @@
         \large
         \singlespacing
         {\begin{tabular}[t]{l l}%
-        \medskip Atliko: &\; \@status \\
-        \bigskip   &\; \@author \hfill \@signatureplace \\
-        \medskip\bigskip &\; \@secondauthor \hfill \@signatureplace \\
-        \bigskip Darbo vadovas: &\; \@supervisor \hfill  \@signatureplace \\
-        % Recenzentas: &\; \@reviewer \hfill \@signatureplace
+        \@ifundefined{@ThesisEng}{%
+            \bigskip Atliko: &\; \@status \\
+            \bigskip &\; \@author \hfill \hfill \@signatureplace \\
+            \medskip\bigskip &\; \@secondauthor \hfill \@signatureplace \\
+            \bigskip Darbo vadovas: &\; \@supervisor \hfill \@signatureplace \\
+        }{%
+            \bigskip Authors: &\; \@status \\
+            \bigskip &\; \@author \hfill \hfill \@signatureplace \\
+            \medskip\bigskip &\; \@secondauthor \hfill \@signatureplace \\
+            \bigskip Supervisor: &\; \@supervisor \hfill \@signatureplace \\
+        }%
         \end{tabular} \par}%
      \end{flushright}
   }
   \vfill
   \begin{center}
-    \large{\@date}%
+    \large\@date%
   \end{center}
   \vskip 0.4cm
   \@thanks
   \end{titlepage}%
-  % Tolesni puslapiai numeruojami įprastai
-  \pagenumbering{arabic}%
+  % Tolesni puslapiai numeruojami nuo antro
+  \setcounter{page}{2}%
   % Atlaisviname panaudotus kintamuosius
   \global\let\@outputtitle\relax
   \global\let\thanks\relax
@@ -213,6 +287,7 @@
   \global\let\supervisor\relax
   \global\let\@signatureplace\relax
   \global\let\checkifdefined\relax
+  \global\let\@addsignatureplaces\relax
   \setcounter{footnote}{0}%
   % Nustatome dokumentui 1,5 tarpo tarp eilučių intervalą
   \onehalfspacing
@@ -232,12 +307,10 @@
 
 \renewcommand\tableofcontents{%
     % Turinys su viengubu intervalu tarp eilučių
+    \sectionnonumnocontent{\contentsname
+        \@mkboth{%
+            \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
     \begin{singlespacing}%
-        \section*{%
-            \bf\normalsize\centering\MakeUppercase\contentsname%
-            \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
-        }%
-        \sectionbookmark{\contentsname}% Sukuriame PDF nuorodą į turinį
         \@starttoc{toc}%
     \end{singlespacing}%
     \newpage%
@@ -258,18 +331,18 @@
     \begingroup
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
-      \leavevmode {
+      \leavevmode
       \advance\leftskip\@tempdima
       \hskip -\leftskip
       % Skyrių pavadinimai paverčiami vien didžiosiomis raidėmis
-      \MakeUppercase{#1}}\nobreak\
+      \MakeUppercase{#1}\nobreak\
       \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
      \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
     \endgroup
   \fi}
 
 
-% Sekcija pradeda naują puslapį
+% Sekcija (skyrius) pradeda naują puslapį
 \renewcommand{\section}{%
     \cleardoublepage%
     \@startsection{section}{1}{\z@}%
@@ -278,26 +351,34 @@
         {\normalfont\Large\bfseries}%
 }
 
-% Priedo sekcijų formatavimas turiniui
+% Priedų formatavimas
 \renewcommand{\appendix}{%
-    \renewcommand{\section}{%
+    \@ifundefined{@firstappendix}{%
+        \newcommand{\@firstappendix}{}%
+        \newcounter{appendixcounter}%
+        \@ifundefined{@ThesisEng}{%
+            \sectionnonum{Priedai}%
+            \newcommand{\@appendix}{nr. \arabic{appendixcounter}}%
+        }{%
+            \sectionnonum{Appendixes}%
+            \newcommand{\@appendix}{\arabic{appendixcounter}}%
+        }%
+    }{%
         \cleardoublepage%
-        \secdef\@Appendix\@sAppendix%
     }%
-    \setcounter{section}{0}%
-    \renewcommand{\thesection}{nr. \arabic{section}}%
-    % Pataisymas, kad PDF žymėse pridėtų kaip atskirą skyrių
-    % (be šio pataisymo prideda kaip praeito skyriaus poskyrį)
-    \phantomsection%
-    % Pridedame į turinį
-    \addcontentsline{toc}{section}{Priedai}%
+    \secdef\@Appendix\@sAppendix%
 }
 
 \def\@Appendix[#1]#2{%
-    \refstepcounter{section}%
-    \addcontentsline{toc}{subsection}%
-        {\arabic{section} priedas.~#2}%
-    {\large\bfseries\appendixname\ \thesection\par
+    \refstepcounter{appendixcounter}%
+    \@ifundefined{@ThesisEng}{%
+        \addcontentsline{toc}{subsection}%
+            {\arabic{appendixcounter} priedas.~#2}%
+    }{%
+        \addcontentsline{toc}{subsection}%
+            {\appendixname\ \arabic{appendixcounter}.~#2}%
+    }%
+    {\large\bfseries\appendixname\ \@appendix\par
      #2\par}% \nohyphens\centering#2\par}%
     \sectionmark{#1}\vspace{\baselineskip}%
     \footnotesize%
@@ -322,16 +403,16 @@
 
 % Turinio skyrių indentavimo nustatymas. Kiekvienam skyriui nustatoma:
 % 1. Atitraukimo iš kairės plotis
-% 2. Vietos, skiriama skaičiams, plotis
-\renewcommand*\l@subsection{\@dottedtocline{2}{0.1cm}{0.87cm}}
-\renewcommand*\l@subsubsection{\@dottedtocline{3}{0.8cm}{1.22cm}}
-\renewcommand*\l@paragraph{\@dottedtocline{4}{1.5cm}{1.52cm}}
+% 2. Vietos, skiriamos dalies numeriui, plotis
+\renewcommand*\l@subsection{\@dottedtocline{2}{0.63cm}{0.87cm}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{1.33cm}{1.22cm}}
+\renewcommand*\l@paragraph{\@dottedtocline{4}{2.03cm}{1.52cm}}
 
 % Raktinių žodžių komandos
 \newcommand\keywords[1]{%
     \par \bigskip \par
     % \hangindent=\parindent   % Lygiavimas nuo antros eilutės
-    \noindent \textbf{Keywords:}\; \textbf{#1}
+    \noindent \textenglish{\textbf{Keywords:}\; \textbf{#1}}
 }
 \newcommand\raktiniaizodziai[1]{%
     \par \bigskip \par
@@ -339,19 +420,32 @@
     \noindent \textbf{Raktiniai žodžiai:}\; \textbf{#1}
 }
 
+% Padarome, kad išnašos visada būtų puslapio apačioje
+\RequirePackage[bottom]{footmisc}
 % Tarpai tarp išnašų eilučių nustatomi į 1,5 eilutės
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\onehalfspacing #1}}
+% Tarpai tarp išnašų nustatomi į tokius pačius kaip ir tarp išnašų eilučių
+\setlength{\footnotesep}{11pt}
 
-% Panaikinami dvigubi tarpai tarp sąrašo elementų
+% Panaikiname dvigubus tarpus tarp sąrašo elementų,
+% jų įtrauką suvienodiname su aplinkinio teksto įtrauka
 \RequirePackage{enumitem}
-\setlist{nosep}
+\setlist{nosep, leftmargin=*}
+% Pirmo lygio sąrašui pridedame tarpus iš viršaus ir apačios,
+% jų įtrauką suvienodiname su pastraipos pirmos eilutės įtrauka
+\setlist[1]{topsep=0.2cm, labelindent=\parindent}
 
 % float paketas turi būti užkraunamas anksčiau nei hyperref
 \RequirePackage{float}
 
 % Nuorodos turinyje ir kitur padaromos aktyviomis
-\RequirePackage[hidelinks,linktoc=all]{hyperref}
+\RequirePackage[%
+    hidelinks,
+    linktoc=all,
+    pdflang={\@ifundefined{@ThesisEng}{lt}{en-US}},
+    bookmarksnumbered=true,
+]{hyperref}
 
 % Pataisymas, kad veiktų kompiliavimas su LuaLaTeX.
 % TODO: galima pašalinti 2025 m., nes pataisymas jau yra
@@ -368,11 +462,14 @@
 
 % Nustatomas PDF pavadinimas ir autorius
 \AtBeginDocument{
-    \hypersetup{pdftitle = {\@title}}
+    \hypersetup{%
+        pdftitle = {\@title},
+        pdfsubject = {\@papertype}
+    }
     \@ifundefined{@secondauthor}{
         \hypersetup{pdfauthor = {\@author}}
     }{
-        \hypersetup{pdfauthor = {\@author\ and \@secondauthor}}
+        \hypersetup{pdfauthor = {\@author, \@secondauthor}}
     }
 }
 
@@ -387,12 +484,41 @@
 }
 
 % Algoritmai apjuosiami kraštine
-\RequirePackage[boxed]{algorithm}
+\RequirePackage{algorithm}
 
-% Algoritmai laikomi paveiksliukais, todėl turi vadintis pav.
-\DeclareCaptionLabelFormat{alg}{#2 #1}
-\captionsetup[algorithm]{name=pav.,labelformat=alg,labelsep=space}
+% Sutvarkome lstlistings aplinką:
+% 1. pakeičiame pavadinimą į pav. (neaišku, kaip kitaip pavadinti,
+%    nes angliškas terminas „listing“ verčiamas kaip „sąrašas“)
+% 2. pavadinimą dedame apačioje
+% 3. apjuosiame kraštine
+% 4. numeruojame taip pat kaip ir paveiksliukus
+% https://tex.stackexchange.com/a/117538
+\RequirePackage{listings}
+\lstset{
+    captionpos=b,
+    frame=single,
+    breaklines=true
+}
+\@ifundefined{@ThesisEng}{%
+    % Teisingai formatuojame paveikslėlių antraštes.
+    \captionsetup*[figure]{labelsep=space}
 
-% Algoritmų numeracija turi sutapti su paveiksliukų
-\let\c@algorithm\c@figure
-\let\ftype@algorithm\ftype@figure
+    \DeclareCaptionLabelFormat{alg}{#2 #1}
+    \captionsetup*[algorithm]{name=algoritmas,labelformat=alg,labelsep=period}
+    \DeclareCaptionLabelFormat{listing}{#2 #1}
+    \captionsetup*[lstlisting]{labelformat=listing, labelsep=space}
+    \renewcommand\lstlistingname{pav.}
+    % https://tex.stackexchange.com/questions/462810/use-same-reference-count-for-lstlisting-and-figure-graphics
+    \AtBeginDocument[A]{\let\c@lstlisting\c@figure}
+    % % https://tex.stackexchange.com/questions/422131/how-to-use-the-same-numbering-counter-for-figures-tables-and-listings
+    \let\ftype@listings\ftype@figure
+}{%
+    \captionsetup*[figure]{labelsep=period}
+    \captionsetup*[algorithm]{labelsep=period}
+}
+
+% Komandos, skirtos pateikti angliškus terminų vertimus
+% Be skliaustų.
+\newcommand{\anglnb}[1]{angl.\ \textit{\textenglish{#1}}}
+% Su skliaustais.
+\newcommand{\angl}[1]{(\anglnb{#1})}
