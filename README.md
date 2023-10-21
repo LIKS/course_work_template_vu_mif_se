@@ -1,13 +1,13 @@
-# Vilniaus universiteto Programų sistemų kursinio darbo LaTeX šablonas
-
-## Pasiruošimas
+## Vilniaus universiteto Programų sistemų kursinio darbo LaTeX šablonas
 
 Šablonas naudoja:  
 - `latexmk` kompiliavimo paleidimui  
 - `lualatex` PDF generavimui  
-- `biblatex` ir `biber` bibliografijos tvarkymui
+- `biblatex` ir `biber` bibliografijos tvarkymui  
 
 Pagrindinis šriftas yra [Palemonas](https://vlkk.lt/palemonas).
+
+## Pasiruošimas
 
 ### Linux
 
@@ -38,16 +38,17 @@ Instaliuoti [MacTex](https://tug.org/mactex).
 Įvykdyti vieną iš:  
 - `make`  
 - `make pdf`  
-- `latexmk -lualatex -halt-on-error kursinis.tex` (ta pati komanda, kurią įvykdo kiti du variantai)
+- `latexmk -lualatex kursinis.tex`
 
 ### Windows
 
-Įvykdyti `latexmk -lualatex -halt-on-error kursinis.tex`.
+Įvykdyti `latexmk -lualatex kursinis.tex`.
 
 ## Kitos naudingos komandos
 
 ### Linux / macOS
 
+- nuolatinis perkompiliavimas dokumentui pasikeitus: `make watch`
 - dokumento žodžių skaičius (apytikslis): `make wordcount`  
 - paprastų klaidų patikrinimas (pastaba: praneša apie daugybę dalykų, iš kurių nebūtinai visi aktualūs): `make check`  
 - nereikalingų failų išvalymas: `make clean`

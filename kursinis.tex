@@ -1,5 +1,9 @@
-\documentclass{VUMIFPSkursinis}
+\documentclass[
+    % english, % Klasei padavus parametrą 'english', darbas bus anglų kalba.
+    % signatureplaces % prideda parašų vietas tituliniame puslapyje
+]{VUMIFPSkursinis}
 \usepackage{float}
+\usepackage{wrapfig2}
 \usepackage{hyperref}
 \usepackage{algorithmicx}
 \usepackage{algorithm}
@@ -12,23 +16,20 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{subcaption}
-\usepackage{wrapfig}
 \usepackage{biblatex}
-\usepackage{microtype}
 
 % Titulinio aprašas
 \university{Vilniaus universitetas}
 \faculty{Matematikos ir informatikos fakultetas}
-\institute{Informatikos institutas}  % Užkomentavus šią eilutę - institutas neįtraukiamas į titulinį
 \department{Programų sistemų studijų programa}
 \papertype{Kursinis darbas}
 \title{Programų sistemų kūrimo metodų tyrimas}
 \titleineng{Investigation of Methods of Software Development}
-\status{4 kurso ... grupės studentas}
 \author{Vardenis Pavardenis}
+\status{4 kurso ... grupės studentas}
 % \secondauthor{Vardonis Pavardonis}   % Pridėti antrą autorių
 \supervisor{prof. habil. dr. Vardaitis Pavardaitis}
-% \addsignatureplaces{} % prideda parašų vietas tituliniame puslapyje
+\reviewer{doc. dr. Vardauskas Pavardauskas}
 \date{Vilnius – \the\year}
 
 \bibliography{bibliografija}
@@ -49,31 +50,39 @@ gautų rezultatų apibendrinimas. Šios dalies turinys labai priklauso nuo darbo
 temos. Skyriai gali turėti poskyrius ir smulkesnes sudėtines dalis, kaip
 punktus ir papunkčius.
 
-Medžiaga turi būti dėstoma aiškiai, pateikiant argumentus. Tekstas dėstomas
+Medžiaga turi būti dėstoma aiškiai, pateikiant argumentus. Tekste dėstomas
 trečiuoju asmeniu, t.y. rašoma ne \enquote{aš manau}, bet „autorius mano“, „autoriaus
 nuomone“. Reikėtų vengti informacijos nesuteikiančių frazių, pvz., „...kaip jau
-buvo minėta...“, „...kaip visiems žinoma...“ ir pan., vengti grožinės literatūros
-ar publicistinio stiliaus, gausių metaforų ar panašių meninės išraiškos
-priemonių.
+buvo minėta...“, \enquote{...kaip visiems žinoma...} ir pan., vengti grožinės
+literatūros ar publicistinio stiliaus, gausių metaforų ar panašių meninės
+išraiškos priemonių.
+
+Skyriai gali turėti poskyrius ir smulkesnes sudėtines dalis, kaip punktus ir
+papunkčius.
 
 \subsection{Poskyris}
 Citavimo pavyzdžiai: cituojamas vienas šaltinis \cite{PvzStraipsnLt}; cituojami
-keli šaltiniai \cite{PvzStraipsnEn, PvzKonfLt, PvzKonfEn, PvzKnygLt, PvzKnygEn,
-PvzElPubLt, PvzElPubEn, PvzMagistrLt, PvzPhdEn}.
+keli šaltiniai \cite{PvzStraipsnEn, PvzStraipsnLta, PvzKonfLt, PvzKonfEn, PvzKnygLt, PvzKnygEn,
+PvzElPubLt, PvzElPubEn, PvzBakLt, PvzMagistrLt, PvzPhdEn}.
+
+Anglų kalbos terminų pateikimo pavyzdžiai: priklausomybių injekcija (\anglnb{dependency injection},
+dažnai trumpinama kaip \textit{DI}), saitų redaktorius \angl{linker}.
+
+Išnašų\footnote{Pirma išnaša.} pavyzdžiai\footnote{Antra išnaša.}.
 
 \subsection{Faktorialo algoritmas}
 
-\ref{alg:factorial} pav. pateiktas faktorialo algoritmas.
+\ref{alg:factorial} algoritmas parodo, kaip suskaičiuoti skaičiaus faktorialą.
 
 \begin{algorithm}
+\caption{Skaičiaus faktorialas}
 \begin{algorithmic}[1] % [1] padaro, kad eilutės būtų sunumeruotos
 \State $N\gets$ skaičius, kurio faktorialą skaičiuojame
 \State $F\gets 1$
-\For{$i := 2$ $to$ $N$}
+\For{$i := 2$ to $N$}
     \State $F\gets F \cdot i$
 \EndFor
 \end{algorithmic}
-\caption{Faktorialo algoritmas}
 \label{alg:factorial}
 \end{algorithm}
 
@@ -90,6 +99,14 @@ rezultatai (kažkas išanalizuota, kažkas sukurta, kažkas įdiegta) ir pateiki
 išvados (daromi nagrinėtų problemų sprendimo metodų palyginimai, teikiamos
 rekomendacijos, akcentuojamos naujovės).
 
+\sectionnonum{Išvados}
+\begin{enumerate}[labelindent=0pt]
+    \item Išvadų skyriuje daromi nagrinėtų problemų sprendimo metodų palyginimai, siūlomos
+rekomendacijos, akcentuojamos naujovės.
+    \item Išvados pateikiamos sunumeruoto (gali būti hierarchinis) sąrašo pavidalu.
+    \item Darbo išvados turi atitikti darbo tikslą.
+\end{enumerate}
+
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
 % literatūra, kitokie šaltiniai. Abėcėlės tvarka išdėstomi darbe panaudotų
 % (cituotų, perfrazuotų ar bent paminėtų) mokslo leidinių, kitokių publikacijų
@@ -103,13 +120,13 @@ Sąvokų apibrėžimai ir santrumpų sąrašas sudaromas tada, kai darbo tekste
 vartojami specialūs paaiškinimo reikalaujantys terminai ir rečiau sutinkamos
 santrumpos.
 
-\appendix  % Priedai
+% Priedai
 % Prieduose gali būti pateikiama pagalbinė, ypač darbo autoriaus savarankiškai
 % parengta, medžiaga. Savarankiški priedai gali būti pateikiami ir
 % kompaktiniame diske. Priedai taip pat numeruojami ir vadinami. Darbo tekstas
 % su priedais susiejamas nuorodomis.
+\appendix{Neuroninio tinklo struktūra}
 
-\section{Neuroninio tinklo struktūra}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{img/MLP}
@@ -118,7 +135,8 @@ santrumpos.
 \end{figure}
 
 
-\section{Eksperimentinio palyginimo rezultatai}
+\appendix{Eksperimentinio palyginimo rezultatai}
+
 % tablesgenerator.com - converts calculators (e.g. excel) tables to LaTeX
 \begin{table}[H]\footnotesize
   \centering
